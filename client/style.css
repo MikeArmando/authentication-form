@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+.main-container form {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+  border-radius: 2%;
+  padding: 4rem 8rem;
+}
+
+label {
+  margin: 0.5rem 0;
+}
+
+button {
+  cursor: pointer;
+  margin: 1rem 0;
+  padding: 0.8rem 2rem;
+}
