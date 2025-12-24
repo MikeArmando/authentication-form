@@ -10,15 +10,16 @@
     <title>Authentication form</title>
   </head>
   <body>
-    <h1>Authentication form</h1>
     <div class="main-container">
-      <form action="/" method="get">
+      <form>
+        <h2>Sign Up</h2>
         <label for="first-name-input">First Name</label>
         <input
           type="text"
           name="first-name"
           id="first-name-input"
-          placeholder="First Name"
+          placeholder="Enter your first name"
+          maxlength="82"
           required
         />
 
@@ -27,37 +28,42 @@
           type="text"
           name="last-name"
           id="last-name-input"
-          placeholder="Last Name"
+          placeholder="Enter your last name"
+          maxlength="82"
           required
         />
 
         <label for="email-input">Email</label>
         <input
-          type="text"
+          type="email"
           name="email"
           id="email-input"
-          placeholder="Email"
+          placeholder="example@gmail.com"
+          maxlength="82"
           required
         />
 
         <label for="password-input">Password</label>
         <input
-          type="text"
+          type="password"
           name="password"
           id="password-input"
-          placeholder="Password"
+          placeholder="Enter your password"
+          maxlength="82"
           required
         />
 
         <label for="confirm-password-input">Confirm Password</label>
         <input
-          type="text"
+          type="password"
           name="confirm-password"
           id="confirm-password-input"
-          placeholder="Confirm Password"
+          placeholder="Confirm your password"
+          maxlength="82"
           required
         />
-        <button type="submit" class="submit-btn">Sign Up</button>
+        <button type="submit" class="submit-btn">SIGN UP</button>
+        <a href="">Already have an account? Log In</a>
       </form>
     </div>
   </body>

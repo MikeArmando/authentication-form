@@ -19,8 +19,18 @@ relational databases.
 
 ## Tech Stack
 
-| Frontend   | Backend    | Database   |
-| :--------- | :--------- | :--------- |
-| JavaScript | Node.js    | PostgreSQL |
-| CSS3       | Express.js | SQL        |
-| HTML5      |            |            |
+### Frontend
+
+- JavaScript
+- HTML5
+- CSS3
+
+### Backend
+
+- Node.js
+- Express.js
+
+### Database
+
+- PostgreSQL
+- SQL
