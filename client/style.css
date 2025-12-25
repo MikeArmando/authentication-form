@@ -18,11 +18,22 @@ body {
   height: 100vh;
 }
 
+.hidden {
+  display: none;
+}
+
+.auth-section {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.main-container section {
+  width: 28rem;
+  max-width: 90%;
+}
+
 .main-container form {
   display: flex;
   flex-direction: column;
-  width: 28rem;
-  max-width: 90%;
 }
 
 .main-container form h2 {
@@ -74,4 +85,15 @@ button:hover {
 
 .main-container a:hover {
   text-decoration-color: currentColor;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(2.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

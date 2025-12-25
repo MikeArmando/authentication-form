@@ -11,60 +11,90 @@
   </head>
   <body>
     <div class="main-container">
-      <form>
-        <h2>Sign Up</h2>
-        <label for="first-name-input">First Name</label>
-        <input
-          type="text"
-          name="first-name"
-          id="first-name-input"
-          placeholder="Enter your first name"
-          maxlength="82"
-          required
-        />
+      <section id="signup-section" class="auth-section">
+        <form id="signup-form">
+          <h2>Sign Up</h2>
+          <label for="signup-first-name">First Name</label>
+          <input
+            type="text"
+            name="first-name"
+            id="signup-first-name"
+            placeholder="Enter your first name"
+            maxlength="82"
+            required
+          />
 
-        <label for="last-name-input">Last Name</label>
-        <input
-          type="text"
-          name="last-name"
-          id="last-name-input"
-          placeholder="Enter your last name"
-          maxlength="82"
-          required
-        />
+          <label for="signup-last-name">Last Name</label>
+          <input
+            type="text"
+            name="last-name"
+            id="signup-last-name"
+            placeholder="Enter your last name"
+            maxlength="82"
+            required
+          />
 
-        <label for="email-input">Email</label>
-        <input
-          type="email"
-          name="email"
-          id="email-input"
-          placeholder="example@gmail.com"
-          maxlength="82"
-          required
-        />
+          <label for="signup-email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="signup-email"
+            placeholder="example@gmail.com"
+            maxlength="82"
+            required
+          />
 
-        <label for="password-input">Password</label>
-        <input
-          type="password"
-          name="password"
-          id="password-input"
-          placeholder="Enter your password"
-          maxlength="82"
-          required
-        />
+          <label for="signup-password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="signup-password"
+            placeholder="Enter your password"
+            maxlength="82"
+            required
+          />
 
-        <label for="confirm-password-input">Confirm Password</label>
-        <input
-          type="password"
-          name="confirm-password"
-          id="confirm-password-input"
-          placeholder="Confirm your password"
-          maxlength="82"
-          required
-        />
-        <button type="submit" class="submit-btn">SIGN UP</button>
-        <a href="">Already have an account? Log In</a>
-      </form>
+          <label for="signup-confirm-password">Confirm Password</label>
+          <input
+            type="password"
+            name="confirm-password"
+            id="signup-confirm-password"
+            placeholder="Confirm your password"
+            maxlength="82"
+            required
+          />
+          <button type="submit" class="submit-btn">SIGN UP</button>
+          <a href="#" id="link-to-login">Already have an account? Log In</a>
+        </form>
+      </section>
+
+      <section id="login-section" class="auth-section hidden">
+        <form id="login-form">
+          <h2>Welcome back</h2>
+          <label for="login-email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="login-email"
+            placeholder="example@gmail.com"
+            maxlength="82"
+            required
+          />
+
+          <label for="login-password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="login-password"
+            placeholder="Enter your password"
+            maxlength="82"
+            required
+          />
+
+          <button type="submit" class="submit-btn">LOG IN</button>
+          <a href="#" id="link-to-signup">New here? Create an account</a>
+        </form>
+      </section>
     </div>
   </body>
 </html>
