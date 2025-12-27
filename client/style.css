@@ -87,6 +87,10 @@ button:hover {
   text-decoration-color: currentColor;
 }
 
+.invalid-input {
+  color: red;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
