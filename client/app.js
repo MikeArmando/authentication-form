@@ -1,5 +1,6 @@
 const signupSection = document.getElementById("signup-section");
 const loginSection = document.getElementById("login-section");
+const homeSection = document.getElementById("home-section");
 
 const linkToLogin = document.getElementById("link-to-login");
 const linkToSignup = document.getElementById("link-to-signup");
@@ -31,7 +32,7 @@ if (loginForm) {
 }
 
 // ------------------------- Logic for Sign Up -------------------------
-function handleSignup(event) {
+async function handleSignup(event) {
   event.preventDefault();
 
   const form = event.target;
@@ -46,6 +47,31 @@ function handleSignup(event) {
   if (userData.password !== userData["confirm-password"]) {
     showCustomError(form);
     return;
+  }
+
+  try {
+    const response = await fetch("/api/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userData),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log("Result:", result);
+      alert("User created! Check the server console.");
+      
+      form.reset();
+    } else {
+      console.error("Server Error:", result);
+      alert(`Error: ${result.message}`);
+    }
+  } catch (error) {
+    console.error("Network Error:", error);
+    alert("Something went wrong. Please try again later.");
   }
 }
 
