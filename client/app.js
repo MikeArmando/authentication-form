@@ -1,6 +1,6 @@
 const signupSection = document.getElementById("signup-section");
 const loginSection = document.getElementById("login-section");
-const homeSection = document.getElementById("home-section");
+const logoutBtn = document.getElementById("logout-btn");
 
 const linkToLogin = document.getElementById("link-to-login");
 const linkToSignup = document.getElementById("link-to-signup");
@@ -9,6 +9,15 @@ const signupForm = document.getElementById("signup-form");
 const loginForm = document.getElementById("login-form");
 
 // -------------------------- Event Listeners --------------------------
+window.addEventListener("DOMContentLoaded", () => {
+  const savedUser = localStorage.getItem("user");
+
+  if (savedUser) {
+    const user = JSON.parse(savedUser);
+    showWelcomePage(user.firstName);
+  }
+});
+
 linkToLogin.addEventListener("click", (event) => {
   event.preventDefault();
 
@@ -21,6 +30,13 @@ linkToSignup.addEventListener("click", (event) => {
 
   loginSection.classList.add("hidden");
   signupSection.classList.remove("hidden");
+});
+
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("user");
+
+  document.getElementById("welcome-section").classList.add("hidden");
+  loginSection.classList.remove("hidden");
 });
 
 if (signupForm) {
@@ -60,15 +76,17 @@ async function handleSignup(event) {
 
     const result = await response.json();
 
-    if (response.ok) {
-      console.log("Result:", result);
-      alert("User created! Check the server console.");
-
-      form.reset();
-    } else {
+    if (!response.ok) {
       console.error("Server Error:", result);
       alert(`Error: ${result.message}`);
     }
+
+    console.log("Result:", result);
+    localStorage.setItem("user", JSON.stringify(result));
+    
+    showWelcomePage(result.firstName);
+    
+    form.reset();
   } catch (error) {
     console.error("Network Error:", error);
     alert("Something went wrong. Please try again later.");
@@ -102,11 +120,21 @@ async function handleLogin(event) {
       return;
     }
 
-    alert(result.message);
+    localStorage.setItem("user", JSON.stringify(result.user));
+
+    showWelcomePage(result.user.firstName);
   } catch (error) {
     console.error("Network Error:", error);
     alert("Something went wrong. Please try again later.");
   }
+}
+
+// -------------------------- Show Welcome Page --------------------------
+function showWelcomePage(userName) {
+  loginSection.classList.add("hidden");
+  signupSection.classList.add("hidden");
+  document.getElementById("welcome-section").classList.remove("hidden");
+  document.getElementById("Welcome-message").textContent = ` ${userName}!`;
 }
 
 // -------------------------- Show Errors --------------------------

@@ -25,7 +25,7 @@ app.post("/api/signup", async (request, response) => {
     const queryText = `
       INSERT INTO users (first_name, last_name, email, password)
       VALUES ($1, $2, $3, $4)
-      RETURNING id, email;
+      RETURNING first_name, last_name, email;
     `;
 
     const values = [
@@ -41,7 +41,9 @@ app.post("/api/signup", async (request, response) => {
 
     response.status(201).json({
       message: "User created successfully!",
-      userId: result.rows[0].id,
+      firstName: result.rows[0]["first_name"],
+      lastName: result.rows[0]["last_name"],
+      email: result.rows[0].email,
     });
   } catch (error) {
     console.error("Database Error:", error);
@@ -49,7 +51,6 @@ app.post("/api/signup", async (request, response) => {
     if (error.code === "23505") {
       return response.status(400).json({ message: "Email already in use." });
     }
-
     response.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -70,17 +71,18 @@ app.post("/api/login", async (request, response) => {
 
     const user = result.rows[0];
 
-    if (user.password === password) {
-      response.status(200).json({
-        message: "Login successful!",
-        user: { id: user.id, firstName: user.first_name },
-      });
-    } else {
-      response.status(401).json({ message: "Invalid email or password" });
+    if (user.password !== password) {
+      return response
+        .status(401)
+        .json({ message: "Invalid email or password" });
     }
+
+    response.status(200).json({
+      message: "Login successful!",
+      user: { email: user.email, firstName: user.first_name },
+    });
   } catch (error) {
     console.error("Database Error:", error);
-
     response.status(500).json({ message: "Internal Server Error" });
   }
 });
