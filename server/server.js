@@ -1,9 +1,12 @@
 import express from "express";
 import pg from "pg";
+import bcrypt from "bcrypt";
 import "dotenv/config";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+const SALT = 10;
 
 app.use(express.static("client"));
 app.use(express.json());
@@ -19,21 +22,22 @@ const pool = new Pool({
 
 // -------------------------- Sign Up --------------------------
 app.post("/api/signup", async (request, response) => {
-  const userData = request.body;
+  const {
+    "first-name": firstName,
+    "last-name": lastName,
+    email,
+    password,
+  } = request.body;
 
   try {
+    const hashedPassword = await bcrypt.hash(password, SALT);
+
     const queryText = `
       INSERT INTO users (first_name, last_name, email, password)
       VALUES ($1, $2, $3, $4)
       RETURNING first_name, last_name, email;
     `;
-
-    const values = [
-      userData["first-name"],
-      userData["last-name"],
-      userData.email,
-      userData.password,
-    ];
+    const values = [firstName, lastName, email, hashedPassword];
 
     const result = await pool.query(queryText, values);
 
@@ -71,7 +75,9 @@ app.post("/api/login", async (request, response) => {
 
     const user = result.rows[0];
 
-    if (user.password !== password) {
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
       return response
         .status(401)
         .json({ message: "Invalid email or password" });
