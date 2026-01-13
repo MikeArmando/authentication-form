@@ -21,10 +21,10 @@
             name="first-name"
             id="signup-first-name"
             placeholder="Enter your first name"
-            maxlength="82"
+            maxlength="100"
             required
           />
-          <span class="hidden"></span>
+          <span id="signup-first-name-error" class="invalid-input"></span>
 
           <label for="signup-last-name">Last Name</label>
           <input
@@ -32,10 +32,10 @@
             name="last-name"
             id="signup-last-name"
             placeholder="Enter your last name"
-            maxlength="82"
+            maxlength="100"
             required
           />
-          <span class="error"></span>
+          <span id="signup-last-name-error" class="invalid-input"></span>
 
           <label for="signup-email">Email</label>
           <input
@@ -43,10 +43,10 @@
             name="email"
             id="signup-email"
             placeholder="example@gmail.com"
-            maxlength="82"
+            maxlength="255"
             required
           />
-          <span class="error"></span>
+          <span id="signup-email-error" class="invalid-input"></span>
 
           <label for="signup-password">Password</label>
           <input
@@ -57,7 +57,7 @@
             maxlength="82"
             required
           />
-          <span class="error"></span>
+          <span id="signup-password-error" class="invalid-input"></span>
 
           <label for="signup-confirm-password">Confirm Password</label>
           <input
@@ -68,7 +68,8 @@
             maxlength="82"
             required
           />
-          <span class="error"></span>
+          <span id="signup-confirm-password-error" class="invalid-input"></span>
+          <span id="signup-general-error" class="invalid-input"></span>
 
           <button type="submit" class="submit-btn">SIGN UP</button>
           <a href="#" id="link-to-login">Already have an account? Log In</a>
@@ -84,10 +85,10 @@
             name="email"
             id="login-email"
             placeholder="example@gmail.com"
-            maxlength="82"
+            maxlength="255"
+            minlength="12"
             required
           />
-          <span class="error"></span>
 
           <label for="login-password">Password</label>
           <input
@@ -98,7 +99,7 @@
             maxlength="82"
             required
           />
-          <span class="error"></span>
+          <span id="login-general-error" class="invalid-input"></span>
 
           <button type="submit" class="submit-btn">LOG IN</button>
           <a href="#" id="link-to-signup">New here? Create an account</a>

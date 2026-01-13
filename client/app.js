@@ -52,16 +52,17 @@ async function handleSignup(event) {
   event.preventDefault();
 
   const form = event.target;
-  if (!form.checkValidity()) {
-    showErrors(form);
-    return;
-  }
-
   const formData = new FormData(form);
   const userData = Object.fromEntries(formData);
+  const formType = "signup";
 
   if (userData.password !== userData["confirm-password"]) {
-    showCustomError(form);
+    const resultObject = {
+      field: "confirm-password",
+      message: "Passwords don't match.",
+    };
+
+    showErrors(formType, resultObject);
     return;
   }
 
@@ -78,14 +79,15 @@ async function handleSignup(event) {
 
     if (!response.ok) {
       console.error("Server Error:", result);
-      alert(`Error: ${result.message}`);
+      showErrors(formType, result);
+      return;
     }
 
     console.log("Result:", result);
     localStorage.setItem("user", JSON.stringify(result));
-    
+
     showWelcomePage(result.firstName);
-    
+
     form.reset();
   } catch (error) {
     console.error("Network Error:", error);
@@ -98,13 +100,9 @@ async function handleLogin(event) {
   event.preventDefault();
 
   const form = event.target;
-  if (!form.checkValidity()) {
-    showErrors(form);
-    return;
-  }
-
   const formData = new FormData(form);
   const userData = Object.fromEntries(formData);
+  const formType = "login";
 
   try {
     const response = await fetch("/api/login", {
@@ -116,7 +114,7 @@ async function handleLogin(event) {
     const result = await response.json();
 
     if (!response.ok) {
-      alert(result.message);
+      showErrors(formType, result);
       return;
     }
 
@@ -138,21 +136,10 @@ function showWelcomePage(userName) {
 }
 
 // -------------------------- Show Errors --------------------------
-function showErrors(form) {
-  Array.from(form.elements).forEach((input) => {
-    if (!input.checkValidity()) {
-      const errorSpan = input.nextElementSibling;
-      if (errorSpan) {
-        errorSpan.textContent = "Invalid";
-        input.classList.add("invalid-input");
-      }
-    }
-  });
-}
-
-// ------------------------------------------------------------
-function showCustomError(form) {
-  const errorSpan = form["confirm-password"].nextElementSibling;
-  errorSpan.textContent = "Passwords do not match!";
-  errorSpan.classList.add("invalid-input");
+function showErrors(formType, result) {
+  const errorSpan = document.getElementById(
+    `${formType}-${result.field}-error`
+  );
+  errorSpan.classList.add("active");
+  errorSpan.textContent = result.message;
 }

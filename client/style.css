@@ -68,6 +68,28 @@ body {
   margin: 0.5rem 0;
 }
 
+.main-container a {
+  font-size: 0.9rem;
+  color: rgb(30, 30, 30);
+  margin-top: 0.2rem;
+  max-width: fit-content;
+  text-decoration: underline solid transparent;
+  transition: text-decoration-color 0.2s ease;
+}
+
+.main-container a:hover {
+  text-decoration-color: currentColor;
+}
+
+.invalid-input {
+  display: none;
+  color: #dc3545;
+}
+
+.invalid-input.active {
+  display: block;
+}
+
 label {
   margin-top: 0.7rem;
 }
@@ -99,23 +121,6 @@ button {
 button:hover {
   color: rgb(30, 30, 30);
   background-color: rgb(249, 249, 249);
-}
-
-.main-container a {
-  font-size: 0.9rem;
-  color: rgb(30, 30, 30);
-  margin-top: 0.2rem;
-  max-width: fit-content;
-  text-decoration: underline solid transparent;
-  transition: text-decoration-color 0.2s ease;
-}
-
-.main-container a:hover {
-  text-decoration-color: currentColor;
-}
-
-.invalid-input {
-  color: red;
 }
 
 @keyframes fadeIn {
