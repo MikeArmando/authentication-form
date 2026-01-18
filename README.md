@@ -1,7 +1,7 @@
-# Authentication form
+# AuthMe
 
 A secure, full-stack authentication system built with Node.js, Express, and PostgreSQL.
-This project features a complete user registration and login flow. It ensures data integrity through multi-layer validation and prioritizes security by utilizing industry-standard password hashing and environment variable management. Once authenticated, users gain access to a personalized welcome interface
+This project features a complete user registration and login flow. It ensures data integrity through multi-layer validation and prioritizes security by utilizing industry-standard password hashing and environment variable management. Once authenticated, users gain access to a personalized welcome interface.
 
 - **Live demo:** (Check out the project here)
 
