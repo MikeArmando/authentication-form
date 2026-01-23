@@ -18,3 +18,5 @@ yarn-error.log*
 dist/
 build/
 .vscode/
+.vercel
+.env*.local
