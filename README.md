@@ -9,7 +9,7 @@ This project features a complete user registration and login flow. It ensures da
 
 ![Signup Page](/public/assets/signup-image.png)
 ![Login Page](/public/assets/login-image.png)
-![Welcome Page](/public/assets/welcome-image.png)
+![Dashboard Page](/public/assets/dashboard.png)
 
 ## Key Features
 
