@@ -35,7 +35,7 @@ router.post("/signup", validateSignup, async (request, response) => {
     "last-name": lastName,
     email,
     password,
-  } = request.body;
+  } = request.validatedData;
 
   try {
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -87,19 +87,11 @@ router.post("/signup", validateSignup, async (request, response) => {
 
 // ------------------------------ Log In Logic ------------------------------
 router.post("/login", validateLogin, async (request, response) => {
-  const { email, password } = request.body;
+  const { email, password } = request.validatedData;
 
   try {
     const queryText = "SELECT * FROM users WHERE email = $1;";
     const result = await pool.query(queryText, [email]);
-
-    if (result.rows.length === 0) {
-      return response.status(401).json({
-        success: false,
-        field: "general",
-        message: "Invalid email or password.",
-      });
-    }
 
     const user = result.rows[0];
 

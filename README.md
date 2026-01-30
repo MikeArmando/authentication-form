@@ -24,13 +24,13 @@ This project features a complete user registration and login flow. It ensures da
 - **Password Hashing:** bcrypt with salt rounds to ensure user passwords are never stored in plain text.
 - **Environment Variables:** Sensitive database credentials are managed via dotenv and kept out of version control.
 - **SQL Injection Protection:** All database queries use parameterized inputs to prevent malicious attacks.
-- **Input Sanitization:** Emails are normalized (lowercased/trimmed) and names are sanitized before processing.
+- **Input Sanitization:** Emails are normalized (lowercased/trimmed), passwords are validated and names are sanitized before processing.
 
 ## Architecture
 
 The project follows a modular structure:
 
-- `/client`: Frontend assets and DOM logic.
+- `/public`: Frontend assets and DOM logic.
 - `/server`: Express routes and API logic.
 - `.env`: (Ignored) Secure configuration.
 
@@ -42,4 +42,4 @@ The project follows a modular structure:
 
 **Database:** PostgreSQL
 
-**Security:** Bcrypt (Hashing), Dotenv (Environment Variables), node-postgres (pg)
+**Security:** Bcrypt (Hashing), Dotenv (Environment Variables), node-postgres (pg), jwt (Authentication token), zod (User Input Validation)

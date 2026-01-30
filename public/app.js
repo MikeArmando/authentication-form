@@ -139,7 +139,7 @@ async function handleSignup(event) {
     showDashboard(result.firstName, result.email);
   } catch (error) {
     console.error("Network Error:", error);
-    alert("Something went wrong. Please try again later.");
+    showErrors("signup", "general");
   }
 }
 
@@ -169,7 +169,7 @@ async function handleLogin(event) {
     showDashboard(result.user.firstName, result.user.email);
   } catch (error) {
     console.error("Network Error:", error);
-    alert("Something went wrong. Please try again later.");
+    showErrors("login", "general");
   }
 }
 
@@ -196,7 +196,6 @@ function showErrors(formType, result) {
     errorSpan.textContent = result.message;
   } else {
     console.error("Unknown error field:", result.field);
-    alert(result.message);
   }
 }
 
