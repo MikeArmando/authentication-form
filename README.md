@@ -1,7 +1,6 @@
 # AuthMe
 
-A secure, full-stack authentication system built with Node.js, Express, and PostgreSQL.
-This project features a complete user registration and login flow. It ensures data integrity through multi-layer validation and prioritizes security by utilizing industry-standard password hashing and environment variable management. Once authenticated, users gain access to a personalized welcome interface.
+A secure, full-stack authentication system built with Node.js, Express, and PostgreSQL. This project features a complete user registration and login flow, prioritizing defense-in-depth security. It utilizes multi-layer validation, industry-standard password hashing, and sophisticated request throttling to prevent common web vulnerabilities.
 
 - **Live:** [AuthMe](https://authme-red.vercel.app)
 
@@ -13,25 +12,30 @@ This project features a complete user registration and login flow. It ensures da
 
 ## Key Features
 
-- **Dynamic User Registration:** Capture user data via validated form.
-- **Modular Architecture:** Clean code structure using ES Modules.
-- **Data Persistence:** Uses PostgreSQL as a database to store data.
-- **Complete Validation:** Complete validation of users credentials.
+- **JWT-Based Authentication:** Secure session management using JSON Web Tokens.
+- **Unified Error Handling:** Custom "Helper Functions" translate complex backend validation errors into user-friendly UI feedback.
+- **Clean Architecture:** Modular ESM structure with dedicated layers for routing, validation, and database configuration.
+- **Data Integrity:** Schema-based validation ensures that only "clean" data enters the system.
+- **Data Persistence:** Uses PostgreSQL (Hosted on Neon) as a database to store data.
 - **Responsive Design:** Fully functional on mobile and desktop.
 
 ## Security Features
 
-- **Password Hashing:** bcrypt with salt rounds to ensure user passwords are never stored in plain text.
-- **Environment Variables:** Sensitive database credentials are managed via dotenv and kept out of version control.
-- **SQL Injection Protection:** All database queries use parameterized inputs to prevent malicious attacks.
-- **Input Sanitization:** Emails are normalized (lowercased/trimmed), passwords are validated and names are sanitized before processing.
+- **Brute Force Protection:** Implements `express-rate-limit` to throttle login/signup attempts and prevent automated attacks.
+- **HTTP-Only Cookies:** JWTs are stored in `httpOnly` cookies, making them inaccessible to client-side scripts, providing robust protection against XSS.
+- **CSRF Defense:** Cookies utilize `SameSite: Strict` flags to prevent cross-site request forgery.
+- **Input Sanitization & Validation:** Leverages Zod for strict schema enforcement, email normalization, and protection against malformed inputs.
+- **Password Hashing:** Uses `bcrypt` with salt rounds to secure user credentials at rest.
+- **SQL Injection Protection:** LeEmploys parameterized queries via pg to neutralize injection vectors.
 
 ## Architecture
 
 The project follows a modular structure:
 
 - `/public`: Frontend assets and DOM logic.
-- `/server`: Express routes and API logic.
+- `/server/routes`: Express routes and API logic.
+- `/server/middleware`: Dedicated validators and schema for auth and rate limiting.
+- `server/config`: Database pool configuration.
 - `.env`: (Ignored) Secure configuration.
 
 ## Tech Stack
@@ -40,6 +44,15 @@ The project follows a modular structure:
 
 **Backend:** Node.js, Express.js
 
-**Database:** PostgreSQL
+**Database:** PostgreSQL (Hosted on Neon)
 
-**Security:** Bcrypt (Hashing), Dotenv (Environment Variables), node-postgres (pg), jwt (Authentication token), zod (User Input Validation)
+**Security & Validation:** 
+- Zod (Schema validation and data transformation),
+
+- Bcrypt: Secure password hashing.
+
+- JWT: Stateless session tokens.
+
+- Express-Rate-Limit: Request throttling/Spam prevention.
+
+- Cookie-Parser: Secure cookie handling.
