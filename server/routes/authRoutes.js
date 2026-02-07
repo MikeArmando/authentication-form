@@ -6,6 +6,7 @@ import {
   validateSignup,
   validateLogin,
   authenticateToken,
+  authLimiter,
 } from "../middleware/validators.js";
 
 const router = express.Router();
@@ -29,64 +30,69 @@ router.post("/logout", (request, response) => {
 });
 
 // ------------------------------ Sign Up Logic ------------------------------
-router.post("/signup", validateSignup, async (request, response) => {
-  const {
-    "first-name": firstName,
-    "last-name": lastName,
-    email,
-    password,
-  } = request.validatedData;
+router.post(
+  "/signup",
+  authLimiter,
+  validateSignup,
+  async (request, response) => {
+    const {
+      "first-name": firstName,
+      "last-name": lastName,
+      email,
+      password,
+    } = request.validatedData;
 
-  try {
-    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    try {
+      const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
-    const queryText = `
+      const queryText = `
       INSERT INTO users (first_name, last_name, email, password)
       VALUES ($1, $2, $3, $4)
       RETURNING first_name AS "firstName", last_name AS "lastName", email;
     `;
-    const values = [firstName, lastName, email, hashedPassword];
+      const values = [firstName, lastName, email, hashedPassword];
 
-    const result = await pool.query(queryText, values);
-    const user = result.rows[0];
+      const result = await pool.query(queryText, values);
+      const user = result.rows[0];
 
-    const token = jwt.sign(user, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+      const token = jwt.sign(user, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
 
-    response.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      maxAge: 3600000,
-    });
+      response.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+        maxAge: 3600000,
+      });
 
-    response.status(201).json({
-      success: true,
-      firstName: user.firstName,
-      email: user.email,
-    });
-  } catch (error) {
-    console.error("Database Error:", error);
+      response.status(201).json({
+        success: true,
+        firstName: user.firstName,
+        email: user.email,
+      });
+    } catch (error) {
+      console.error("Database Error:", error);
 
-    if (error.code === "23505") {
-      return response.status(400).json({
+      if (error.code === "23505") {
+        return response.status(400).json({
+          success: false,
+          field: "email",
+          message: "This email is already registered.",
+        });
+      }
+
+      response.status(500).json({
         success: false,
-        field: "email",
-        message: "This email is already registered.",
+        field: "general",
+        message: "An internal error occurred. Please try again later.",
       });
     }
-
-    response.status(500).json({
-      success: false,
-      field: "general",
-      message: "An internal error occurred. Please try again later.",
-    });
-  }
-});
+  },
+);
 
 // ------------------------------ Log In Logic ------------------------------
-router.post("/login", validateLogin, async (request, response) => {
+router.post("/login", authLimiter, validateLogin, async (request, response) => {
   const { email, password } = request.validatedData;
 
   try {

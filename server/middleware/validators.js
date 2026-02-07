@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { signupSchema, loginSchema } from "./schema.js";
+import rateLimit from "express-rate-limit";
 
 // ------------------------------ Validate Sign up ------------------------------
 export const validateSignup = (request, response, next) => {
@@ -55,3 +56,19 @@ export const authenticateToken = (request, response, next) => {
     response.status(400).json({ success: false, message: "Invalid Token" });
   }
 };
+
+// ------------------------------ Limiter ------------------------------
+export const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  validate: { ip: false },
+  handler: (request, response) => {
+    response.status(429).json({
+      success: false,
+      field: "general",
+      message: "Too many attempts. Please try again later.",
+    });
+  },
+});
